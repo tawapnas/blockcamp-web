@@ -2,7 +2,7 @@
 
   <v-container fluid>
     <header-tab :wallet=Wallet @loadContract="onLoadAccounts"></header-tab>
-    <new-account-card v-if="Wallet != null" @click="showCreateForm"></new-account-card>
+    <new-account-card v-if="Wallet != null" @click="showCreateForm" @click:outside="closeDialog"></new-account-card>
     <v-row v-for="(item, index) in Accounts" :key="index" class="mt-6" no-gutters>
       <account-card @deposit="showDeposit" @withdraw="showWithdraw" @transfer="showTransfer" :account=item>
       </account-card>
@@ -51,7 +51,6 @@ import configuration from '../build/contracts/Accounts.json';
 export default {
   name: 'App',
   components: {
-    // AccountItem
     HeaderTab,
     CreateAccountForm,
     NewAccountCard,
@@ -119,6 +118,7 @@ export default {
       this.selectedAccount = value
     },
     closeDialog() {
+      this.dialog = false
       this.deposit = false
       this.withdraw = false
       this.transfer = false
